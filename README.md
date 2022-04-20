@@ -3,23 +3,23 @@
 ### If you are upgrading from PRB V0 to V2 [click here](https://github.com/suugee/phala-prb/blob/next/V0-V2.md)
 
 ### The cluster architecture used in this tutorial is.
-! [Cluster architecture used in this scenario](https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/main/prb.png)
+![Cluster architecture used in this scenario](https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/main/prb.png)
 
-This program is suitable for small clusters of roughly 50 units; You can also run prb on a single machine. If the cluster is larger, consider node stability issues can use multiple node to do the main backup, load balancing or [contact Suge](# Contact Suge) to commission a custom cluster program.
+This software is suitable for small clusters of roughly 50 units; You can also run prb on a single machine. If the cluster is larger, consider node stability, load balancing solutions, or [contact Suge](# Contact Suge) to commission a custom cluster software.
 
 
 # Contents
-- [System Requirements](# System Requirements)
-- Node machine deployment](#1-node machine deployment)
-  - [Install docker environment](# Install docker environment)
-  - [Start Node container](#Install docker environment)
-- [Prb machine deployment](#2-prb machine deployment)
-  - [Start Prb container](#2-prb machine deployment)
-  - [Access Monitor](# access monitorhttpprb machine ip address 3000)
-- [Worker machine deployment](#3-worker machine deployment)
-  - [install docker environment](#worker installation base environment)
-  - [start pruntime container](# start pruntime)
---
+- [System Requirements](#system-requirements)
+- [Node machine deployment](#1-worker-node-deployment)
+  - [Install docker environment](#install-docker-environment)
+  - [Start Node container](#install-docker-environment)
+- [Prb machine deployment](#2-prb-node-deployment)
+  - [Start Prb container](#2-prb-node-deployment)
+  - [Access Monitor](#visit-monitor-httpprb1270013000)
+- [Worker machine deployment](#2-prb-node-deployment)
+  - [install docker environment](#worker-installation-base-environment)
+  - [start pruntime container](#start-pruntime)
+---
 ### System requirements
 - Ubuntu LTS 20.04
 - Docker ≥ 20.10 or later
