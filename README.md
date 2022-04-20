@@ -58,7 +58,7 @@ docker-compose -f /opt/phala/node.yml up -d
 #### If you deploy on the same machine as the node machine, you do not need to install Docker environment and download configuration files again.
 ```
 # Download the yml configuration file
-wget -O /opt/phala/docker-compose.yml https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/next/ docker-compose.yml
+wget -O /opt/phala/docker-compose.yml https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/next/docker-compose.yml
 
 # Start all services with one click
 docker-compose -f /opt/phala/docker-compose.yml up -d
