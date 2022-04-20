@@ -1,76 +1,76 @@
-# Phala PRB V2 集群全新部署教程
+## Phala PRB V2 Cluster New Deployment Tutorial
 
-### 如果你是PRB V0 升级 V2 [点击此处](https://github.com/suugee/phala-prb/blob/next/V0-V2.md)
+### If you are upgrading from PRB V0 to V2 [click here](https://github.com/suugee/phala-prb/blob/next/V0-V2.md)
 
-### 本教程使用的集群架构：
-![本方案使用的集群架构](https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/main/prb.png)
+### The cluster architecture used in this tutorial is.
+! [Cluster architecture used in this scenario](https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/main/prb.png)
 
-本方案适合50台内小型集群，也可以单独一台机器运行prb，如果集群更大，考虑node稳定性问题可以使用多node做主备、负载均衡或者[联系苏格](#联系苏格)为您定制集群方案，公益教程不提供其他免费指导请谅解。
+This program is suitable for small clusters of roughly 50 units; You can also run prb on a single machine. If the cluster is larger, consider node stability issues can use multiple node to do the main backup, load balancing or [contact Suge](# Contact Suge) to commission a custom cluster program.
 
 
-# 目录
-- [系统要求](#系统要求)
-- [Node机部署](#1-node机部署)
-  - [安装docker环境](#安装docker环境)
-  - [启动Node容器](#安装docker环境)
-- [Prb机部署](#2-prb机部署)
-  - [启动Prb容器](#2-prb机部署)
-  - [访问Monitor](#访问monitorhttpprb机器ip地址3000)
-- [Worker机部署](#3-worker机部署)
-  - [安装docker环境](#worker安装基础环境)
-  - [启动pruntime容器](#启动pruntime)
----
-### 系统要求
+# Contents
+- [System Requirements](# System Requirements)
+- Node machine deployment](#1-node machine deployment)
+  - [Install docker environment](# Install docker environment)
+  - [Start Node container](#Install docker environment)
+- [Prb machine deployment](#2-prb machine deployment)
+  - [Start Prb container](#2-prb machine deployment)
+  - [Access Monitor](# access monitorhttpprb machine ip address 3000)
+- [Worker machine deployment](#3-worker machine deployment)
+  - [install docker environment](#worker installation base environment)
+  - [start pruntime container](# start pruntime)
+--
+### System requirements
 - Ubuntu LTS 20.04
-- Docker ≥ 20.10或更新
-- Docker ≥ Compose 1.29 或更新
-- CPU ≥ 10核以上高主频（i9十代、AMD3950X等）
-- 内存 ≥ 32G
-- 硬盘 ≥ 2T M.2 NVME
-- 内网 千兆交换机，千兆网卡，六类/超六类千兆网线
-- 以上为跑node+prb机器的建议配置，非worker机要求，worker机必须要支持SGX。
+- Docker ≥ 20.10 or later
+- Docker ≥ Compose 1.29 or newer
+- CPU ≥ 10 cores or more high frequency (i9 10th generation, AMD3950X, etc.)
+- Memory ≥ 32G
+- Hard disk ≥ 2T M.2 NVME
+- Internal network Gigabit switch, Gigabit network card, Category 6 / super Category 6 Gigabit network cable
+- The above is the recommended configuration for running a node+prb setup.
 ---
-### 1. Node机部署
+### 1. Worker node deployment
 
-#### 安装Docker环境
+#### Install Docker environment
 ```
-# 切换root
+# Switch to root
 sudo -i
-# 安装Docker
+# Install Docker
 curl -sSL https://get.daocloud.io/docker | sh
-# 安装Docker-compose
+# Install Docker-compose
 wget -O /usr/local/bin/docker-compose https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
 chmod +x /usr/local/bin/docker-compose
 ```
-#### 安装好基础环境后下载docker-compose配置文件，并启动node。
+#### After installing the base environment, download the following docker-compose configuration file and start the node.
 ```
-# 创建目录
+# Create the directory
 mkdir -p /opt/phala
 
-# 下载yml文件
+# Download the yml file
 wget -O /opt/phala/node.yml https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/next/node.yml
 
 docker-compose -f /opt/phala/node.yml up -d
 ```
-- 如果需要指定Node数据存储位置请修改 /opt/phala/node.yml 好后再启动。
+- If you need to specify the Node data storage location please modify /opt/phala/node.yml and start it again.
 ---
-### 2. Prb机部署
-#### 如果和node机部署在同一台则无需重复安装Docker环境和下载配置文件：
+### 2. Prb node deployment
+#### If you deploy on the same machine as the node machine, you do not need to install Docker environment and download configuration files again.
 ```
-# 下载yml配置文件
-wget -O /opt/phala/docker-compose.yml https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/next/docker-compose.yml
+# Download the yml configuration file
+wget -O /opt/phala/docker-compose.yml https://github.suugee.workers.dev/https://raw.githubusercontent.com/suugee/phala-prb/next/ docker-compose.yml
 
-# 一键启动所有服务
+# Start all services with one click
 docker-compose -f /opt/phala/docker-compose.yml up -d
 
 ```
-#### 访问monitor：http://prb机器ip地址:3000
+#### Visit monitor: http://prb.127.0.0.1:3000
 
-### 批量添加pools和workers
+### Batch add pools and workers
 
-- 导入pools
+- Import pools
 ```
-curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz...RjpwY/CreatePool' \
+curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz.. .RjpwY/CreatePool' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "pools": [
@@ -78,17 +78,17 @@ curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz...RjpwY/Cr
             "pid": 2,
             "name": "test2",
             "owner": {
-                "mnemonic": "boss...chase"
+                "mnemonic": "boss. .chase"
             },
             "enabled": true,
-            "realPhalaSs58": "3zieG9...1z5g"
+            "realPhalaSs58": "3zieG9... .1z5g"
         }
     ]
 }'
 ```
-- 导入workers
+- Importing workers
 ```
-curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz...RjpwY/CreateWorker' \
+curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz.. .RjpwY/CreateWorker' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "workers": [
@@ -97,14 +97,14 @@ curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz...RjpwY/Cr
             "name": "test-node-1",
             "endpoint": "http://path.to.worker1:8000",
             "enabled": true,
-            "stake": "4000000000000000"
+            "take": "4000000000000000"
         },
         {
             "pid": 2,
             "name": "test-node-2",
             "endpoint": "http://path.to.worker2:8000",
             "enabled": true,
-            "stake": "4000000000000000"
+            "take": "4000000000000000"
         }
     ]
 }'
@@ -112,14 +112,14 @@ curl --location --request POST 'http://path.to.monitor/ptp/proxy/Qmbz...RjpwY/Cr
 
 ---
 
-### 3. Worker机部署
-#### worker安装基础环境
+### 3. Worker node deployment
+#### Worker installation base environment
 ```
 sudo -i
 cd ~ && wget https://raw.githubusercontent.com/suugee/phala-prb/main/worker.sh
-chmod +x worker.sh && ./worker.sh
+chmod +x worker.sh && . /worker.sh
 ```
-#### 启动pruntime
+#### start pruntime
 ```
 mkdir -p /opt/phala
 cd /opt/phala && mv docker-compose.yml docker-compose.yml.bak
@@ -128,44 +128,44 @@ docker-compose up -d pruntime
 ```
 ---
 
-### 编写不易，如果帮到你了，打赏点PHA吧O(∩_∩)O：`42iT6whLuSeWxqhXTYDiCyKqWwqNGWhWWmUS4Fdt4Ujnr21y`
+### Documentation is tedious and long to write. If this helped you, buy me a coffee by donating PHA O(∩_∩)O: `42iT6whLuSeWxqhXTYDiCyKqWwqNGWhWWmUS4Fdt4Ujnr21y`
 
-### 常用命令
-+ Node机常用操作
+### Commonly used commands
++ Node machine common operations
 ```
-启动容器：docker-compose -f /opt/phala/node.yml up -d
-停止容器：docker stop node
-重启容器：docker restart node
-移除容器: docker rm node
-查看日志：docker logs -f node -n 100
+Start the container: docker-compose -f /opt/phala/node.yml up -d
+Stop the container: docker stop node
+Restart the container: docker restart node
+Remove the container: docker rm node
+View logs: docker logs -f node -n 100
 ```
-+ Prb机常用操作
++ Prb machine common operations
 ```
 cd /opt/phala
-docker-compose up -d redis io	#启动基础服务
-docker-compose up -d data_provider	#启动data_provider服务
-docker-compose up -d trade	#启动trade服务
-docker-compose up -d lifecycle	#启动lifecycle服务
-docker-compose up -d monitor	#启动monitor服务
-docker ps -a   #查看容器状态
-docker logs -f fetch   #查看fetch日志
-docker restart 容器名   #重启某个容器
+docker-compose up -d redis io # Start the base service
+docker-compose up -d data_provider #Start the data_provider service
+docker-compose up -d trade #Start the trade service
+docker-compose up -d lifecycle #Start the lifecycle service
+docker-compose up -d monitor #Start monitor service
+docker ps -a #Check container status
+docker logs -f fetch #View fetch logs
+docker restart container name #restart a container
 ```
-+ Worker机常用操作
++ Worker machine common operations
 ```
-启动容器：docker-compose up -d pruntime
-停止容器: docker stop pruntime
-移除容器: docker rm pruntime
-查看日志: docker logs -f pruntime
+Start container: docker-compose up -d pruntime
+Stop the container: docker stop pruntime
+Remove the container: docker rm pruntime
+View logs: docker logs -f pruntime
 ```
 ---
-+ 官方论坛：https://forum.phala.network/
-+ 官方wiki：https://wiki.phala.network/
-+ 官方Github: https://github.com/Phala-Network
-+ 官方Telegram：https://t.me/phalaCN
++ Official forum: https://forum.phala.network/
++ Official wiki: https://wiki.phala.network/
++ Official Github: https://github.com/Phala-Network
++ Official Telegram: https://t.me/phalaCN
 
-### 联系苏格
-+ 苏格VX：suugee_bit
-+ 苏格QQ：6559178
-+ 苏格Telegram：https://t.me/sparksure
-+ 苏格Github：https://github.com/suugee/phala-prb
+### Contact Sugee
++ Sugee VX: suugee_bit
++ Suugee QQ: 6559178
++ Sugee Telegram: https://t.me/sparksure
++ Sugee Github: https://github.com/suugee/phala-prb
